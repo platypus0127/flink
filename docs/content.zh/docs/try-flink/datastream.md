@@ -839,13 +839,15 @@ public class FraudDetector extends KeyedProcessFunction<Long, Transaction, Alert
         }
 
         if (transaction.getAmount() < SMALL_AMOUNT) {
-            // set the flag to true
-            flagState.update(true);
+    
 
             long timer = context.timerService().currentProcessingTime() + ONE_MINUTE;
             context.timerService().registerProcessingTimeTimer(timer);
 
             timerState.update(timer);
+            
+            // set the flag to true
+            flagState.update(true);
         }
     }
 
